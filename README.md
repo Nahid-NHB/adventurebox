@@ -64,8 +64,10 @@ Real integrations, selected by the `EXPO_PUBLIC_USE_REAL_*` flags:
 | Notifications | expo-notifications (local, daily) | `src/services/notifications/expo.ts` |
 | Photo storage | Supabase Storage (family-scoped) | `src/services/media.ts` |
 | Backend schema + RLS | Postgres migration | `supabase/migrations/0001_init.sql` |
-| Admin / moderation | Service-role CLI | `scripts/cms/moderate.ts` |
+| Admin / moderation | Service-role CLI + web CMS | `scripts/cms/moderate.ts`, `web/` |
 
 See `supabase/README.md` to provision the backend. Everything degrades gracefully: if the network, a key, or the backend is missing, the app falls back to the local curated experience without an error surface.
 
-The one thing intentionally left as documentation rather than code is a full web admin CMS (create/edit/tag/analytics dashboards). The moderation CLI (`scripts/cms/moderate.ts`) is its functional MVP and operates on the same tables and RLS.
+## Web admin CMS
+
+`web/` is a standalone Next.js dashboard for operators: moderate AI drafts, author and tag the curated library (with server-side zod validation matching the app schema), and view usage analytics. It talks to the same Supabase project via the service-role key, server-side only. See `web/README.md` to run it. The `scripts/cms/moderate.ts` CLI still works for quick command-line moderation on the same tables.
