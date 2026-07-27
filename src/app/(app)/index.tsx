@@ -6,8 +6,10 @@ import { useTodaysAdventure } from '@/hooks/useTodaysAdventure';
 import { useBackgroundGeneration } from '@/hooks/useBackgroundGeneration';
 import { useStreak } from '@/hooks/useStreak';
 import { useFavorites, useToggleFavorite } from '@/hooks/useFavorites';
+import { useWeeklyChallenge } from '@/hooks/useWeeklyChallenge';
 import { useSessionStore } from '@/store/session';
 import { AdventureCard } from '@/components/activity/AdventureCard';
+import { WeeklyChallengeCard } from '@/components/challenge/WeeklyChallengeCard';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/feedback/EmptyState';
 import { greeting } from '@/lib/date';
@@ -43,6 +45,7 @@ export default function HomeScreen() {
   const { data: activity, isLoading } = useTodaysAdventure(child);
   const { data: streak } = useStreak();
   const { data: favorites } = useFavorites();
+  const { data: challenge } = useWeeklyChallenge();
   const toggleFav = useToggleFavorite();
   const nextPick = useSessionStore((s) => s.nextPick);
 
@@ -110,6 +113,10 @@ export default function HomeScreen() {
             subtitle="Add a child in the Family tab to get started."
           />
         )}
+
+        {challenge ? (
+          <WeeklyChallengeCard def={challenge.def} progress={challenge.progress} />
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );

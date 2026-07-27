@@ -2,8 +2,10 @@ import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useChildren } from '@/hooks/useChildren';
 import { useStreak } from '@/hooks/useStreak';
+import { useWeeklyChallenge } from '@/hooks/useWeeklyChallenge';
 import { useSessionStore } from '@/store/session';
 import { Card } from '@/components/ui/Card';
+import { WeeklyChallengeCard } from '@/components/challenge/WeeklyChallengeCard';
 import { Pill } from '@/components/ui/Pill';
 import { INTEREST_LABELS } from '@/lib/labels';
 
@@ -19,6 +21,7 @@ function StatBox({ value, label }: { value: string | number; label: string }) {
 export default function FamilyScreen() {
   const { data: children } = useChildren();
   const { data: streak } = useStreak();
+  const { data: challenge } = useWeeklyChallenge();
   const { activeChildId, setActiveChild } = useSessionStore();
 
   return (
@@ -32,6 +35,10 @@ export default function FamilyScreen() {
           <StatBox value={`L${streak?.explorerLevel ?? 1}`} label="Explorer level" />
           <StatBox value={streak?.xp ?? 0} label="Curiosity XP" />
         </View>
+
+        {challenge ? (
+          <WeeklyChallengeCard def={challenge.def} progress={challenge.progress} />
+        ) : null}
 
         <Text className="text-xs font-semibold uppercase tracking-wider text-ink-faint">
           Explorers
