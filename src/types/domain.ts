@@ -201,6 +201,20 @@ export const JournalEntrySchema = z.object({
   createdAt: z.string(),
 });
 
+/**
+ * A weekly challenge is a gentle, family-scoped goal ("do 3 outdoor adventures
+ * this week"). The definitions are curated and static (see lib/weeklyChallenge);
+ * only the per-week progress is persisted and synced.
+ */
+export const WeeklyChallengeProgressSchema = z.object({
+  familyId: z.string(),
+  weekKey: z.string(), // e.g. "2026-W30"
+  challengeId: z.string(),
+  count: z.number().int().min(0),
+  target: z.number().int().min(1),
+  completedAt: z.string().nullable(),
+});
+
 // ---------------------------------------------------------------------------
 // Inferred types
 // ---------------------------------------------------------------------------
@@ -223,6 +237,7 @@ export type FamilySettings = z.infer<typeof FamilySettingsSchema>;
 export type Assignment = z.infer<typeof AssignmentSchema>;
 export type Streak = z.infer<typeof StreakSchema>;
 export type JournalEntry = z.infer<typeof JournalEntrySchema>;
+export type WeeklyChallengeProgress = z.infer<typeof WeeklyChallengeProgressSchema>;
 
 /** Context passed to both the matching engine and the AI generation pipeline. */
 export interface GenContext {
