@@ -29,6 +29,7 @@ const TABLE: Record<string, string> = {
   favorites: 'favorites',
   journal_entries: 'journal_entries',
   activities: 'activities',
+  weekly_challenges: 'weekly_challenge_progress',
 };
 
 async function resolveFamilyId(sb: SupabaseClient): Promise<string | null> {
@@ -181,6 +182,15 @@ function toRow(table: string, p: Record<string, unknown>): Record<string, unknow
       };
     case 'favorites':
       return { ...base, activity_id: p.activityId, created_at: p.createdAt };
+    case 'weekly_challenge_progress':
+      return {
+        ...base,
+        week_key: p.weekKey,
+        challenge_id: p.challengeId,
+        count: p.count,
+        target: p.target,
+        completed_at: p.completedAt,
+      };
     case 'journal_entries':
       return {
         id: p.id,
