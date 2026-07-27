@@ -49,7 +49,7 @@ Parent-only accounts (no child login), no ads, no chat, no social, no public pro
 
 ## What's built
 
-Runs offline with zero credentials (stubs): onboarding, home, activity detail, curated library (28 activities incl. cooperative/premium), matching, streaks, journal with photo capture, family, settings, paywall, full local SQLite persistence, and the sync outbox.
+Runs offline with zero credentials (stubs): onboarding, home, activity detail, curated library (28 activities incl. cooperative/premium), matching, streaks, weekly challenges (deterministic per-week rotation, gentle progress), journal with photo capture, family, settings, paywall, full local SQLite persistence, and the sync outbox.
 
 Real integrations, selected by the `EXPO_PUBLIC_USE_REAL_*` flags:
 
