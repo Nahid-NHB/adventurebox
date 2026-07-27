@@ -10,6 +10,7 @@ import type {
   FamilySettings,
   JournalEntry,
   Streak,
+  WeeklyChallengeProgress,
 } from '@/types/domain';
 
 const j = (v: unknown) => JSON.stringify(v);
@@ -252,6 +253,32 @@ export function rowToStreak(r: StreakRow): Streak {
     lastCompletedDate: r.last_completed_date,
     explorerLevel: r.explorer_level,
     xp: r.xp,
+  };
+}
+
+// ---- Weekly challenges -----------------------------------------------------
+
+export interface ChallengeProgressRow {
+  family_id: string;
+  week_key: string;
+  challenge_id: string;
+  count: number;
+  target: number;
+  completed_at: string | null;
+}
+
+export function challengeProgressToRow(p: WeeklyChallengeProgress): unknown[] {
+  return [p.familyId, p.weekKey, p.challengeId, p.count, p.target, p.completedAt];
+}
+
+export function rowToChallengeProgress(r: ChallengeProgressRow): WeeklyChallengeProgress {
+  return {
+    familyId: r.family_id,
+    weekKey: r.week_key,
+    challengeId: r.challenge_id,
+    count: r.count,
+    target: r.target,
+    completedAt: r.completed_at,
   };
 }
 
