@@ -117,6 +117,21 @@ export const MIGRATIONS: Migration[] = [
       );
     `,
   },
+  {
+    version: 2,
+    name: 'weekly_challenges',
+    sql: `
+      CREATE TABLE IF NOT EXISTS weekly_challenge_progress (
+        family_id TEXT NOT NULL,
+        week_key TEXT NOT NULL,
+        challenge_id TEXT NOT NULL,
+        count INTEGER NOT NULL DEFAULT 0,
+        target INTEGER NOT NULL,
+        completed_at TEXT,
+        PRIMARY KEY (family_id, week_key)
+      );
+    `,
+  },
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;
