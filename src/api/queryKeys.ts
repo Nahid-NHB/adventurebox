@@ -9,5 +9,6 @@ export const qk = {
   streak: (familyId: string) => ['streak', familyId] as const,
   favorites: (familyId: string) => ['favorites', familyId] as const,
   journal: (familyId: string) => ['journal', familyId] as const,
+  weeklyChallenge: (familyId: string) => ['weeklyChallenge', familyId] as const,
   entitlement: () => ['entitlement'] as const,
 };
