@@ -5,7 +5,13 @@
  * the sync outbox.
  */
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { assignmentsRepo, streaksRepo, journalRepo } from '@/database';
+import {
+  assignmentsRepo,
+  streaksRepo,
+  journalRepo,
+  activitiesRepo,
+  weeklyChallengesRepo,
+} from '@/database';
 import { qk } from '@/api/queryKeys';
 import { LOCAL_FAMILY_ID } from '@/services/config';
 import { todayKey } from '@/lib/date';
@@ -28,6 +34,13 @@ export function useCompleteActivity() {
         status: 'completed',
       });
       const streak = await streaksRepo.completeForStreak(LOCAL_FAMILY_ID);
+
+      // Advance the weekly challenge if this activity's category counts.
+      const activity = await activitiesRepo.getActivityById(input.activityId);
+      if (activity) {
+        await weeklyChallengesRepo.bumpForCompletion(LOCAL_FAMILY_ID, activity.category);
+      }
+
       if (input.childComment || input.learningNote) {
         await journalRepo.addJournalEntry({
           assignmentId: assignment.id,
@@ -44,6 +57,7 @@ export function useCompleteActivity() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: qk.streak(LOCAL_FAMILY_ID) });
       qc.invalidateQueries({ queryKey: qk.journal(LOCAL_FAMILY_ID) });
+      qc.invalidateQueries({ queryKey: qk.weeklyChallenge(LOCAL_FAMILY_ID) });
       qc.invalidateQueries({ queryKey: ['todaysAdventure'] });
     },
   });
